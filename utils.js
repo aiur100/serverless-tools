@@ -28,7 +28,7 @@ function log(event,metaData=null,type="info")
 function removeEmptyParams(objectToClean)
 {
   return Object.keys(objectToClean).filter(key => {
-    return objectToClean[key] && objectToClean[key] !== "" && objectToClean[key] !== null;
+    return objectToClean[key] && objectToClean[key] !== "" && objectToClean[key] !== " " && objectToClean[key] !== null;
   }).reduce((accum,curr) => {
     accum[curr] = objectToClean[curr];
     return accum;
