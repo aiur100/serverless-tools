@@ -1,6 +1,10 @@
 const uuidv4 = require('uuid/v4');
 const HillDatabase = require("./HillDatabase");
 
+function sleep(ms)
+{
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 function dbFactory(tableName,dynamoDbClient)
 {
     return new HillDatabase(tableName,dynamoDbClient);
