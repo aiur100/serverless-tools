@@ -80,9 +80,9 @@ class HillDatabase {
         ).promise();
     }
 
-    async whereCall(keyValuePairs = null)
+    async whereCall(keyValuePairs = null,fields = null)
     {
-        let params      = this.buildScanFilterParams(keyValuePairs);
+        let params      = this.buildScanFilterParams(keyValuePairs,fields);
         let pagination  = false;
         let items       = [];
         //console.log("starting...",JSON.stringify(params,null,2));
