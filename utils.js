@@ -34,6 +34,42 @@ function removeEmptyParams(objectToClean)
     return accum;
   },{});
 }
+/**
+ * Deletes params from object that are empty.
+ * This is used for DynamoDB which is intolerant
+ * of empty data.
+ *
+ * @param data
+ * @returns {*}
+ */
+function removeParamsThatAreEmpty(data) {
+    for(let param in data){
+
+        if(!data.hasOwnProperty(param)){
+            continue;
+        }
+
+        if(Array.isArray(data[param])){
+            for(let x = 0; x < data[param].length; x++){
+                data[param][x] = removeParamsThatAreEmpty(data[param][x]);
+            }
+        }
+        else if(typeof data[param] === 'object'){
+            data[param] = removeParamsThatAreEmpty(data[param]);
+        }
+        else{
+            let clean = data[param] === ""   ||
+                data[param] === null         ||
+                data[param] === undefined    ||
+                data[param] === " ";
+
+            if(clean){
+                delete data[param];
+            }
+        }
+    }
+    return data;
+}
 
 function generateId()
 {
@@ -195,4 +231,4 @@ function parseFieldsParam(event)
   return event.queryStringParameters.fields.split(",");
 }
 
-module.exports  = { dbFactory,removeEmptyParams, parseFieldsParam, parseQueryParams, generateId, parseHTTPMethod, isExpired, buildResponse, log, dynamoDbClient, generatePolicy,removeKeys, cleanData, differences, logMessages };
+module.exports  = { removeParamsThatAreEmpty,dbFactory,removeEmptyParams, parseFieldsParam, parseQueryParams, generateId, parseHTTPMethod, isExpired, buildResponse, log, dynamoDbClient, generatePolicy,removeKeys, cleanData, differences, logMessages };
