@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/aiur100/serverless-tools/issues"
   },
-  "homepage": "https://github.com/aiur100/serverless-tools#readme"
+  "homepage": "https://github.com/aiur100/serverless-tools#readme",
+  "dependencies": {
+    "uuid": "^3.3.3"
+  }
 }
