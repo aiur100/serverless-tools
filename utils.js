@@ -235,4 +235,4 @@ function parseFieldsParam(event)
   return event.queryStringParameters.fields.split(",");
 }
 
-module.exports  = { removeParamsThatAreEmpty,dbFactory,removeEmptyParams, parseFieldsParam, parseQueryParams, generateId, parseHTTPMethod, isExpired, buildResponse, log, dynamoDbClient, generatePolicy,removeKeys, cleanData, differences, logMessages };
+module.exports  = { sleep,removeParamsThatAreEmpty,dbFactory,removeEmptyParams, parseFieldsParam, parseQueryParams, generateId, parseHTTPMethod, isExpired, buildResponse, log, dynamoDbClient, generatePolicy,removeKeys, cleanData, differences, logMessages };
