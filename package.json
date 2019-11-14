@@ -7,5 +7,20 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Christopher R. Hill",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aiur100/serverless-tools.git"
+  },
+  "keywords": [
+    "serverless",
+    "tools",
+    "utilities",
+    "aws",
+    "lambda"
+  ],
+  "bugs": {
+    "url": "https://github.com/aiur100/serverless-tools/issues"
+  },
+  "homepage": "https://github.com/aiur100/serverless-tools#readme"
 }
