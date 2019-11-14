@@ -235,4 +235,13 @@ function parseFieldsParam(event)
   return event.queryStringParameters.fields.split(",");
 }
 
-module.exports  = { sleep,removeParamsThatAreEmpty,dbFactory,removeEmptyParams, parseFieldsParam, parseQueryParams, generateId, parseHTTPMethod, isExpired, buildResponse, log, dynamoDbClient, generatePolicy,removeKeys, cleanData, differences, logMessages };
+function makeCollection(listItems,keyBy)
+{
+    return listItems.reduce((collection,currentItem) =>
+    {
+            collection[ currentItem[keyBy] ] = currentItem;
+            return collection;
+    },{});
+}
+
+module.exports  = { makeCollection,sleep,removeParamsThatAreEmpty,dbFactory,removeEmptyParams, parseFieldsParam, parseQueryParams, generateId, parseHTTPMethod, isExpired, buildResponse, log, dynamoDbClient, generatePolicy,removeKeys, cleanData, differences, logMessages };
