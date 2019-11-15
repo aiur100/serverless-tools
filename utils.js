@@ -98,7 +98,14 @@ function dynamoDbClient(local,AWSObject)
           }) :
           new AWSObject.DynamoDB.DocumentClient();
 }
-
+/**
+ * Build a response object for AWS Lambda triggered by an 
+ * HTTP event 
+ * 
+ * @param {*} statusCode 
+ * @param {*} body 
+ * @param {*} headers 
+ */
 function buildResponse(statusCode=200,body,headers=null)
 {
   let corsHeaders  = {
@@ -113,9 +120,16 @@ function buildResponse(statusCode=200,body,headers=null)
     headers: {...corsHeaders,...headers}
   }
 }
-
-// Policy helper function
-function generatePolicy(principalId, effect, resource,user=null){
+/**
+ * Generate AWS Custom Authorizer policy 
+ * 
+ * @param {*} principalId 
+ * @param {*} effect 
+ * @param {*} resource 
+ * @param {*} user 
+ */
+function generatePolicy(principalId, effect, resource,user=null)
+{
   const authResponse = {};
   authResponse.principalId = principalId;
   if (effect && resource) {
@@ -143,7 +157,12 @@ function generatePolicy(principalId, effect, resource,user=null){
   
   return authResponse;
 }
-
+/**
+ * Removes keys from an object 
+ * 
+ * @param {*} objectToChange 
+ * @param {*} keysToRemove 
+ */
 function removeKeys(objectToChange,keysToRemove)
 {
   return Object.keys(objectToChange).filter(key => {
@@ -153,14 +172,18 @@ function removeKeys(objectToChange,keysToRemove)
     return accum;
   },{});
 }
-
+/**
+ * Removes params from a list of objects. 
+ * 
+ * @param {*} listOfObjects 
+ * @param {*} keysToRemove 
+ */
 function cleanData(listOfObjects,keysToRemove=["password"])
 {
   return listOfObjects.map(curr => {
     return removeKeys(curr,keysToRemove);
   });
 }
-
 /**
  * Returns an array with N number of elements 
  * for every param in the subject object. 
@@ -192,7 +215,6 @@ function differences(subject,compare)
            `NO_CHANGE: Field \`${key}\` was not changed`; 
   });
 }
-
 /**
  * Is the given date past an expiration?
  * 
@@ -206,14 +228,12 @@ function isExpired(date,expireSeconds=86400)
 
   return expireDate <= currentDate;
 }
-
 function parseHTTPMethod(event)
 {
   return  event.headers["X-Method"] ? 
           event.headers["X-Method"] : 
           event.requestContext.httpMethod;
 }
-
 function parseQueryParams(event)
 {
   if(!event.queryStringParameters)
@@ -225,7 +245,6 @@ function parseQueryParams(event)
 
   return Object.keys(params).length > 0 ? params : null;
 }
-
 function parseFieldsParam(event)
 {
   if(!event.queryStringParameters ||!event.queryStringParameters.fields)
@@ -234,7 +253,14 @@ function parseFieldsParam(event)
   }
   return event.queryStringParameters.fields.split(",");
 }
-
+/**
+ * Takes a list of objects, creates a collection
+ * with a key pulled from each object param. You 
+ * must specify the key in keyBy. 
+ * 
+ * @param {*} listItems 
+ * @param {*} keyBy 
+ */
 function makeCollection(listItems,keyBy)
 {
     return listItems.reduce((collection,currentItem) =>
@@ -244,4 +270,9 @@ function makeCollection(listItems,keyBy)
     },{});
 }
 
-module.exports  = { makeCollection,sleep,removeParamsThatAreEmpty,dbFactory,removeEmptyParams, parseFieldsParam, parseQueryParams, generateId, parseHTTPMethod, isExpired, buildResponse, log, dynamoDbClient, generatePolicy,removeKeys, cleanData, differences, logMessages };
+function flat(subjectArray)
+{
+  return [].concat.apply([], subjectArray);
+}
+
+module.exports  = {flat, makeCollection,sleep,removeParamsThatAreEmpty,dbFactory,removeEmptyParams, parseFieldsParam, parseQueryParams, generateId, parseHTTPMethod, isExpired, buildResponse, log, dynamoDbClient, generatePolicy,removeKeys, cleanData, differences, logMessages };
